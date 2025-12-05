@@ -206,7 +206,7 @@ return {
         bracket = '#c70c92', -- Bracket
         match_fg = '#07fa50', -- MatchParen
 
-        fg = '#4d3d4b', -- 基本文字色
+        fg = '#a2a3a3', -- 基本文字色
         bg = '#0d0847', -- 非透明時の背景色
         string = '#aaa9ab', -- 文字列
         comment = '#4d3d4b', -- コメント
@@ -327,7 +327,7 @@ return {
         callback = apply_bracket_matches,
       })
       -- vim.api.nvim_create_autocmd('FileType', {
-      --   pattern = 'python',
+      --   pattern = 'python',207
       --   callback = function()
       --     vim.api.nvim_set_hl(0, '@string.documentation', { fg = '#6b6734', italic = true })
       --   end,
@@ -367,7 +367,7 @@ return {
 
       -- 1. 枠線の色 (★ここが重要)
       --    fgを白にすることで、透明なウィンドウに白い枠がつきます
-      set_hl('FloatBorder', { fg = '#496370', bg = 'NONE' })
+      set_hl('FloatBorder', { fg = '#9088d1', bg = 'NONE' })
 
       -- 2. 補完メニューのリスト（通常時）
       --    背景は透明のまま、文字色を見やすく
@@ -393,23 +393,23 @@ return {
 
       -- 1. ファイル名・項目名 (一番面積が広い部分)
       -- ここを好きな色に変えれば、黄色い部分はなくなります
-      set_hl('MiniStarterItem', { fg = '#9dadc4', bg = 'NONE' })
+      set_hl('MiniStarterItem', { fg = '#656875', bg = 'NONE', italic = true })
 
       -- 2. ショートカットキー ( [e] や [q] の部分 )
-      set_hl('MiniStarterItemPrefix', { fg = '#ff6f00' })
+      set_hl('MiniStarterItemPrefix', { fg = '#a6483c' })
 
       -- 3. セクションのタイトル ( "Recent files", "Sessions" など )
-      set_hl('MiniStarterSection', { fg = '#5c678a' })
+      set_hl('MiniStarterSection', { fg = '#5f5a63', italic = true })
 
       -- 4.ヘッダー ( アスキーアートやロゴ )
       set_hl('MiniStarterHeader', { fg = '#35363d' })
 
       -- 5. フッター ( 画面下部のメッセージ )
-      set_hl('MiniStarterFooter', { fg = '#4d3d4b' })
+      set_hl('MiniStarterFooter', { fg = '#a2a3a3' })
 
       -- 6. 現在選択している行 ( カーソルがある行 )
       --    文字色を変えたり、bg = '#222222' で背景をつけたり自由です
-      set_hl('MiniStarterCurrent', { bold = true })
+      -- set_hl('MiniStarterCurrent', { bold = true })
 
       -- 7. 特別なクエリ情報 ( 通常はあまり出ませんが念のため )
       set_hl('MiniStarterQuery', { fg = '#5de8d1' })
@@ -534,38 +534,38 @@ return {
       -- =========================================
 
       -- bg='NONE' で背景を透明化し、sp(下線色)とunderlineで強調
-      set_hl('LspReferenceText', { bg = 'NONE', sp = '#a8fc62' })
-      set_hl('LspReferenceRead', { bg = 'NONE', sp = '#a8fc62' })
-      set_hl('LspReferenceWrite', { bg = 'NONE', sp = '#a8fc62' })
+      set_hl('LspReferenceText', { bg = '#212119', sp = '#a8fc62' })
+      set_hl('LspReferenceRead', { bg = '#212619', sp = '#a8fc62' })
+      set_hl('LspReferenceWrite', { bg = '#212619', sp = '#a8fc62' })
 
       ----------------------------------------------------------------------
       -- Telescope ハイライト
       ----------------------------------------------------------------------
       -- 枠線 & タイトル
-      set_hl('TelescopeBorder', { fg = p.accent2, bg = 'NONE' })
-      set_hl('TelescopePromptBorder', { fg = p.accent2, bg = 'NONE' })
-      set_hl('TelescopeResultsBorder', { fg = p.accent2, bg = 'NONE' })
-      set_hl('TelescopePreviewBorder', { fg = p.accent2, bg = 'NONE' })
+      -- set_hl('TelescopeBorder', { fg = p.accent2, bg = 'NONE' })
+      set_hl('TelescopePromptBorder', { fg = '#5de8d1', bg = 'NONE' })
+      set_hl('TelescopeResultsBorder', { fg = '#2d254d', bg = 'NONE' })
+      set_hl('TelescopePreviewBorder', { fg = '#1c1636', bg = 'NONE' })
 
-      set_hl('TelescopePromptTitle', { fg = p.accent1, bg = 'NONE', bold = true })
-      set_hl('TelescopeResultsTitle', { fg = p.accent1, bg = 'NONE', bold = true })
-      set_hl('TelescopePreviewTitle', { fg = p.accent1, bg = 'NONE', bold = true })
+      set_hl('TelescopePromptTitle', { fg = '#5de8d1', bg = 'NONE', bold = true })
+      set_hl('TelescopeResultsTitle', { fg = '#41366e', bg = 'NONE', bold = true })
+      set_hl('TelescopePreviewTitle', { fg = '#41366e', bg = 'NONE', bold = true })
 
       -- 検索語にマッチしている部分
-      set_hl('TelescopeMatching', { fg = '#ffd75f', bg = 'NONE', bold = true })
+      set_hl('TelescopeMatching', { fg = '#5de8d1', bg = 'NONE', bold = true })
 
       -- 結果リスト文字 & 選択行 & 先頭の ">"
-      set_hl('TelescopeResultsNormal', { fg = p.var_fg, bg = 'NONE' })
-      set_hl('TelescopeSelection', { fg = p.var_fg, bg = 'NONE', bold = true })
+      set_hl('TelescopeResultsNormal', { fg = '#b4b5bf', bg = 'NONE' })
+      set_hl('TelescopeSelection', { bg = '#293d3d' })
       set_hl('TelescopeSelectionCaret', { fg = '#c1f719', bg = 'NONE' })
       -- 必要ならプロンプト行の色も
-      set_hl('TelescopePromptNormal', { fg = p.fg, bg = 'NONE' })
-      set_hl('TelescopePromptCarnet', { fg = '#c1f719', bg = 'NONE' })
+      set_hl('TelescopePromptNormal', { fg = '#f5d7c9', bg = 'NONE' })
+      set_hl('TelescopePromptPrefix', { fg = '#c1f719', bg = 'NONE' })
 
       ----------------------------------------------------------------------
       -- which-key (Space 押したときのポップアップ)
       ----------------------------------------------------------------------
-      set_hl('WhichKeyBorder', { fg = '#a3bf34', bg = 'NONE' })
+      set_hl('WhichKeyBorder', { fg = '#697e8c', bg = 'NONE' })
       set_hl('WhichKeyFloat', { fg = p.fg, bg = 'NONE' }) -- 中身の背景
 
       set_hl('WhichKey', { fg = p.accent1, bg = 'NONE' }) -- キーそのもの
@@ -582,9 +582,9 @@ return {
       -- 見出し (君がすでに Treesitter 側で使ってる色に揃えてある)
 
       -- コードブロック / インラインコード
-      set_hl('RenderMarkdownCode', { fg = p.string, bg = 'NONE' })
-      set_hl('RenderMarkdownCodeBorder', { fg = p.comment, bg = 'NONE' })
-      set_hl('RenderMarkdownCodeInline', { fg = '#ffaf5f', bg = 'NONE' })
+      set_hl('RenderMarkdownCode', { bg = 'NONE' })
+      set_hl('RenderMarkdownCodeBorder', { bg = 'NONE' })
+      set_hl('RenderMarkdownCodeInline', { fg = '#7a2828', bg = 'NONE' })
 
       -- 引用
       set_hl('RenderMarkdownQuote1', { fg = '#5fafff', bg = 'NONE' })
@@ -596,8 +596,12 @@ return {
       set_hl('RenderMarkdownTableRow', { fg = p.fg, bg = 'NONE' })
 
       -- チェックボックス
-      set_hl('RenderMarkdownUnchecked', { fg = '#666666', bg = 'NONE' })
+      set_hl('RenderMarkdownUnchecked', { fg = '#39476b', bg = 'NONE' })
       set_hl('RenderMarkdownChecked', { fg = '#74fa05', bg = 'NONE' })
+
+      set_hl('RenderMarkdownDash', { fg = '#f23f3f', bg = 'NONE' })
+      set_hl('RenderMarkdownBullet', { fg = '#5de8d1', bg = 'NONE' })
+      set_hl('RenderMarkdownLink', { fg = '#5f517a', bg = 'NONE' })
 
       -- コールアウト (NOTE / WARNING / ERROR / SUCCESS)
       set_hl('RenderMarkdownInfo', { fg = '#5fafff', bg = 'NONE', bold = true })
@@ -605,15 +609,55 @@ return {
       set_hl('RenderMarkdownError', { fg = '#ff5f5f', bg = 'NONE', bold = true })
       set_hl('RenderMarkdownSuccess', { fg = '#5fd787', bg = 'NONE', bold = true })
 
+      -- =========================================
+      -- markdown の太字 (strong_emphasis) 用カスタム @my_bold
+      -- =========================================
+
+      -- 基本となるグループ（markdown / markdown_inline 共通）
+      set_hl('@my_bold', {
+        fg = '#243631', -- 好きな色に変えてOK
+        bold = true,
+        bg = 'NONE',
+      })
+
+      -- 必要なら markdown_inline だけ個別に上書きすることもできる
+      -- set_hl('@my_bold.markdown_inline', {
+      --   fg = '#c9c23a',
+      --   bold = true,
+      --   bg = 'NONE',
+      -- })
+
       ----------------------------------------------------------------------
       -- Lazy.nvim (:Lazy) のウィンドウまわり
       ----------------------------------------------------------------------
       -- Lazy の中身（背景＋文字色）
-      set_hl('LazyNormal', { fg = p.fg, bg = 'NONE' })
+      set_hl('LazyNormal', { fg = '#86a284', bg = 'NONE' })
 
       -- Lazy の枠線
       -- ここを変えると :Lazy ウィンドウの外枠の色が変わる
-      set_hl('LazyBorder', { fg = p.accent2, bg = 'NONE' })
+      --       set_hl('LazyBorder', { fg = '#6568bf', bg = 'NONE' })
+
+      ----------------------------------------------------------------------
+      -- lazy.nvim UI の色カスタム
+      ----------------------------------------------------------------------
+
+      -- 「Total: 63 plugins」や「Clean (19)」などの行のコメントっぽい部分
+      set_hl('LazyComment', {
+        fg = '#e6e1f7', -- 好きな色
+        italic = false,
+        bg = 'NONE',
+      })
+
+      -- 中タイトル（例: "Total: 63 plugins" の "Total" 部分 など）
+      set_hl('LazyH2', {
+        fg = '#c75a3c', -- 好きな色
+        bg = 'NONE',
+      })
+      -- 左上の "Lazy.nvim" 見出し
+      set_hl('LazyH1', {
+        fg = '#ffffff', -- 好きな色に
+        bg = '#424659',
+      })
 
       for _, g in ipairs(transparent_groups) do
         local ok, prev = pcall(vim.api.nvim_get_hl, 0, { name = g })
