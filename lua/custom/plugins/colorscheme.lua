@@ -587,7 +587,7 @@ return {
       ----------------------------------------------------------------------
       -- which-key (Space 押したときのポップアップ)
       ----------------------------------------------------------------------
-      set_hl('WhichKeyBorder', { fg = '#f5e4e4', bg = 'NONE' })
+      set_hl('WhichKeyBorder', { fg = '#fafdff', bg = 'NONE' })
       set_hl('WhichKeyFloat', { fg = p.fg, bg = 'NONE' }) -- 中身の背景
 
       set_hl('WhichKey', { fg = p.accent1, bg = 'NONE' }) -- キーそのもの
