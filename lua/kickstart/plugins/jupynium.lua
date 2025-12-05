@@ -1,0 +1,5 @@
+-- commented out to prioritize the one written in the custom snippet
+--return {
+-- 'kiyoon/jupynium.nvim',
+-- cmd = 'JupyniumStartAndAttachToServer',
+--}

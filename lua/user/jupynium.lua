@@ -1,0 +1,17 @@
+-- -- ~/.config/nvim/lua/user/jupynium.lua
+-- require('jupynium').setup {
+--   jupyter_server = 'http://localhost:8888/nbclassic',
+--   use_default_keybindings = false, -- デフォルトをオフにして自分のキーを設定
+--   auto_attach_to_server = {
+--     enable = true,
+--     file_pattern = { '*.ju.*', '*.md', '*.ipynb' },
+--   },
+-- }
+--
+-- -- 🔑 カスタムキーマッピング
+-- -- ここで ;r でセルを実行できるようにする
+-- vim.keymap.set({ 'n', 'x' }, ';r', '<cmd>JupyniumExecuteSelectedCells<CR>', { desc = 'Run selected Jupyter cells' })
+--
+-- -- 他にも必要なら追加可能：
+-- -- vim.keymap.set({ "n", "x" }, ";rc", "<cmd>JupyniumClearSelectedCellsOutputs<CR>", { desc = "Clear cell outputs" })
+-- -- vim.keymap.set("n", ";rh", "<cmd>JupyniumKernelHover<CR>", { desc = "Inspect variable" })
