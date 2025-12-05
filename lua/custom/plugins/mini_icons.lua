@@ -281,7 +281,7 @@ return {
     vim.api.nvim_set_hl(0, 'MiniIconsGreen', { fg = '#22c55e' })
     vim.api.nvim_set_hl(0, 'MiniIconsYellow', { fg = '#eab308' })
     vim.api.nvim_set_hl(0, 'MiniIconsOrange', { fg = '#f97316' })
-    vim.api.nvim_set_hl(0, 'MiniIconsBlue', { fg = '#565ad6' })
+    vim.api.nvim_set_hl(0, 'MiniIconsBlue', { fg = '#b1cc37' })
     vim.api.nvim_set_hl(0, 'MiniIconsAzure', { fg = '#38bdf8' })
     vim.api.nvim_set_hl(0, 'MiniIconsCyan', { fg = '#d996d0' })
     vim.api.nvim_set_hl(0, 'MiniIconsPurple', { fg = '#a855f7' })

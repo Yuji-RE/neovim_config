@@ -206,7 +206,7 @@ return {
         bracket = '#c70c92', -- Bracket
         match_fg = '#07fa50', -- MatchParen
 
-        fg = '#a2a3a3', -- 基本文字色
+        fg = '#999c9e', -- 基本文字色
         bg = '#0d0847', -- 非透明時の背景色
         string = '#aaa9ab', -- 文字列
         comment = '#4d3d4b', -- コメント
@@ -337,7 +337,7 @@ return {
       -- =========================================
       local transparent_groups = {
         'Folded',
-        'NonText',
+        -- 'NonText',
         --'LineNr',
         'SignColumn',
         'StatusLine',
@@ -544,8 +544,8 @@ return {
       -- 枠線 & タイトル
       -- set_hl('TelescopeBorder', { fg = p.accent2, bg = 'NONE' })
       set_hl('TelescopePromptBorder', { fg = '#5de8d1', bg = 'NONE' })
-      set_hl('TelescopeResultsBorder', { fg = '#2d254d', bg = 'NONE' })
-      set_hl('TelescopePreviewBorder', { fg = '#1c1636', bg = 'NONE' })
+      set_hl('TelescopeResultsBorder', { fg = '#46536e', bg = 'NONE' })
+      set_hl('TelescopePreviewBorder', { fg = '#2d2a38', bg = 'NONE' })
 
       set_hl('TelescopePromptTitle', { fg = '#5de8d1', bg = 'NONE', bold = true })
       set_hl('TelescopeResultsTitle', { fg = '#41366e', bg = 'NONE', bold = true })
@@ -556,16 +556,38 @@ return {
 
       -- 結果リスト文字 & 選択行 & 先頭の ">"
       set_hl('TelescopeResultsNormal', { fg = '#b4b5bf', bg = 'NONE' })
-      set_hl('TelescopeSelection', { bg = '#293d3d' })
+      set_hl('TelescopeSelection', { bg = '#261d26' })
       set_hl('TelescopeSelectionCaret', { fg = '#c1f719', bg = 'NONE' })
       -- 必要ならプロンプト行の色も
       set_hl('TelescopePromptNormal', { fg = '#f5d7c9', bg = 'NONE' })
       set_hl('TelescopePromptPrefix', { fg = '#c1f719', bg = 'NONE' })
 
+      -- set_hl('TelescopePreviewDirectory', { fg = '#c1f719', bold = true })
+
+      -- set_hl('TelescopePathLevel1', { fg = '#7aa2f7' }) -- 例: 青
+      -- set_hl('TelescopePathLevel2', { fg = '#9ece6a' }) -- 例: 緑
+      -- set_hl('TelescopePathLevel3', { fg = '#e0af68' }) -- 例: オレンジ
+      -- set_hl('TelescopePathLevel4', { fg = '#bb9af7' }) -- それ以降も必要なら追加
+      -- set_hl('TelescopePathLevel5', { fg = '#c0caf5' })
+      -- set_hl('TelescopePathFilename', { fg = '#c0caf5', bold = true })
+
+      set_hl('TelescopePathDirLua', { fg = '#906594' }) -- lua
+      set_hl('TelescopePathDirCustom', { fg = '#914071' }) -- custom
+      set_hl('TelescopePathDirPlugins', { fg = '#87693e' }) -- plugins
+      -- 追加分
+      set_hl('TelescopePathDirUser', { fg = '#7a5d5d' }) -- user
+      set_hl('TelescopePathDirAfter', { fg = '#f7768e' }) -- after
+      set_hl('TelescopePathDirQueries', { fg = '#ff5f5f' }) -- queries
+      set_hl('TelescopePathDirConfig', { fg = '#b56b48' }) -- config
+      set_hl('TelescopePathDirDoc', { fg = '#7d855f' }) -- doc など
+      set_hl('TelescopePathDirSnippets', { fg = '#b5b048' })
+      set_hl('TelescopePathDirKickstart', { fg = '#4f7d70' })
+      set_hl('TelescopePathDirOther', { fg = '#565f89' }) -- それ以外
+
       ----------------------------------------------------------------------
       -- which-key (Space 押したときのポップアップ)
       ----------------------------------------------------------------------
-      set_hl('WhichKeyBorder', { fg = '#697e8c', bg = 'NONE' })
+      set_hl('WhichKeyBorder', { fg = '#f5e4e4', bg = 'NONE' })
       set_hl('WhichKeyFloat', { fg = p.fg, bg = 'NONE' }) -- 中身の背景
 
       set_hl('WhichKey', { fg = p.accent1, bg = 'NONE' }) -- キーそのもの
@@ -582,7 +604,7 @@ return {
       -- 見出し (君がすでに Treesitter 側で使ってる色に揃えてある)
 
       -- コードブロック / インラインコード
-      set_hl('RenderMarkdownCode', { bg = 'NONE' })
+      set_hl('RenderMarkdownCode', { fg = '#7a2828', bg = 'NONE' })
       set_hl('RenderMarkdownCodeBorder', { bg = 'NONE' })
       set_hl('RenderMarkdownCodeInline', { fg = '#7a2828', bg = 'NONE' })
 
@@ -596,12 +618,12 @@ return {
       set_hl('RenderMarkdownTableRow', { fg = p.fg, bg = 'NONE' })
 
       -- チェックボックス
-      set_hl('RenderMarkdownUnchecked', { fg = '#39476b', bg = 'NONE' })
+      set_hl('RenderMarkdownUnchecked', { fg = '#7d997e', bg = 'NONE' })
       set_hl('RenderMarkdownChecked', { fg = '#74fa05', bg = 'NONE' })
 
       set_hl('RenderMarkdownDash', { fg = '#f23f3f', bg = 'NONE' })
       set_hl('RenderMarkdownBullet', { fg = '#5de8d1', bg = 'NONE' })
-      set_hl('RenderMarkdownLink', { fg = '#5f517a', bg = 'NONE' })
+      set_hl('RenderMarkdownLink', { fg = '#525432', bg = 'NONE' })
 
       -- コールアウト (NOTE / WARNING / ERROR / SUCCESS)
       set_hl('RenderMarkdownInfo', { fg = '#5fafff', bg = 'NONE', bold = true })
@@ -615,7 +637,7 @@ return {
 
       -- 基本となるグループ（markdown / markdown_inline 共通）
       set_hl('@my_bold', {
-        fg = '#243631', -- 好きな色に変えてOK
+        fg = '#4e5d66', -- 好きな色に変えてOK
         bold = true,
         bg = 'NONE',
       })
@@ -626,6 +648,8 @@ return {
       --   bold = true,
       --   bg = 'NONE',
       -- })
+
+      set_hl('NonText', { fg = '#7981b5' })
 
       ----------------------------------------------------------------------
       -- Lazy.nvim (:Lazy) のウィンドウまわり
