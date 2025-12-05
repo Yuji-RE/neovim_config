@@ -488,7 +488,44 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      {
+        'j-hui/fidget.nvim',
+        opts = {
+          -- LSP プログレス関連
+          progress = {
+            display = {
+              -- 文字色系だけ、好きなら変えてOK
+              done_style = 'Constant', -- 完了アイコンの色
+              progress_style = 'WarningMsg',
+              group_style = 'Title',
+              icon_style = 'Question',
+            },
+          },
+          -- 通知ウィンドウ関連
+          notification = {
+            window = {
+              -- このハイライトをベースにウィンドウが描画される
+              -- colorscheme.lua で NormalFloat を bg = 'NONE' にしてるので、実質透明になる
+              normal_hl = 'NormalFloat',
+
+              -- 背景のブレンド率（0=不透明, 100=一番透ける）
+              winblend = 0,
+
+              -- 枠線いらないなら "none" （"rounded" とかも可）
+              border = 'rounded',
+
+              -- この辺は位置やサイズ。触らなくてOKだけど一応デフォルト載せておく
+              zindex = 45,
+              max_width = 0,
+              max_height = 0,
+              x_padding = 1,
+              y_padding = 0,
+              align = 'bottom',
+              relative = 'editor',
+            },
+          },
+        },
+      },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -1043,10 +1080,20 @@ require('lazy').setup({
   },
 })
 
+------
+-- My custom configs
+-----
+
+-- renaming window title for Autohotkey script
+vim.o.title = true
+vim.o.titlestring = 'Neovim'
+
+-- requiring lua/jupy_cells.lua
 -------------------------------
 require('jupy_cells').setup()
 -------------------------------
 
+-- requiring lua/config/options lua
 -----------------------------
 require 'config.options'
 -----------------------------
