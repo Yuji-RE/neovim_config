@@ -90,6 +90,19 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- requiring lua/user/keymaps.lua
+require 'user.keymaps'
+
+-- requiring lua/config/options lua
+-----------------------------
+require 'config.options'
+-----------------------------
+
+-- requiring lua/notes.lua
+-- -------------------------
+require 'notes'
+---------------------------
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -512,7 +525,7 @@ require('lazy').setup({
               winblend = 0,
 
               -- 枠線いらないなら "none" （"rounded" とかも可）
-              border = 'rounded',
+              border = 'none',
 
               -- この辺は位置やサイズ。触らなくてOKだけど一応デフォルト載せておく
               zindex = 45,
@@ -693,6 +706,21 @@ require('lazy').setup({
         },
       }
 
+      -- Pyright の診断は全部捨てて、Ruff にだけやらせる
+      do
+        local orig_handler = vim.lsp.handlers['textDocument/publishDiagnostics']
+
+        vim.lsp.handlers['textDocument/publishDiagnostics'] = function(err, result, ctx, config)
+          local client = vim.lsp.get_client_by_id(ctx.client_id)
+          if client and client.name == 'pyright' then
+            -- Pyright からの診断は何もしない
+            return
+          end
+          -- それ以外の LSP（Ruff など）は普通に表示
+          return orig_handler(err, result, ctx, config)
+        end
+      end
+
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
       --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
@@ -740,11 +768,8 @@ require('lazy').setup({
           settings = {
             python = {
               analysis = {
-                -- 診断を完全に切るなら "off"
-                diagnosticMode = 'off',
-                -- 型チェックも切りたいなら 'off' のままでOK
-                -- もし型チェックだけほしいなら 'basic' にしてもいい
                 typeCheckingMode = 'off',
+                diagnosticMode = 'openFilesOnly', -- or 'workspace'
               },
             },
           },
@@ -836,7 +861,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        python = { 'isort', 'black' },
+        python = { 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -1093,7 +1118,79 @@ vim.o.titlestring = 'Neovim'
 require('jupy_cells').setup()
 -------------------------------
 
--- requiring lua/config/options lua
------------------------------
-require 'config.options'
------------------------------
+-- shortcut for jupy_cells
+-- ショートカットを楽に書くためのショートハンド
+local map = vim.keymap.set
+
+-- 1. コードセル:  # %%  を作って、その下の行で挿入モード
+map('n', '<leader>jc', 'o# %%<CR><CR><Up>', {
+  noremap = true,
+  silent = true,
+  desc = 'Insert Jupytext code cell',
+})
+
+-- 2. マークダウンセル:
+--   # %% [markdown]
+--   """
+--   | ← ここで挿入モード
+--   """
+map('n', '<leader>jm', 'o# %% [markdown]<CR>"""<CR><CR><CR>"""<Up><Up>', {
+  noremap = true,
+  silent = true,
+  desc = 'Insert Jupytext markdown cell',
+})
+
+---- .pyファイルを保存した後に、自動でjupytext --syncを実行する
+vim.api.nvim_create_autocmd('BufWritePost', { pattern = '*.py', command = 'silent !jupytext --sync %' })
+------------------------------------------------------------------------------------------------------------------------------------------
+
+---nvim-jupy-bridge の自作拡張機能設定 -------------------------------
+----------------------------------------------------------------------
+-------------------------------------------
+----- Git ルート（なければ CWD）
+local function project_root()
+  local git = vim.fn.systemlist 'git rev-parse --show-toplevel'
+  if vim.v.shell_error == 0 and git[1] and git[1] ~= '' then
+    return git[1]
+  end
+  return vim.loop.cwd()
+end
+-- VS Code 拡張が監視する JSON を出力
+local function write_sync_json(action)
+  local root = project_root()
+  local vscode_dir = root .. '/.vscode'
+  if vim.fn.isdirectory(vscode_dir) == 0 then
+    vim.fn.mkdir(vscode_dir, 'p')
+  end
+  local pyfile = vim.fn.expand '%:p'
+  local line = vim.fn.line '.'
+  local payload = {
+    file = pyfile,
+    line = line,
+    action = action or 'runBelow',
+    -- 'runAll' も可
+  }
+  local json = vim.fn.json_encode(payload)
+  local out = vscode_dir .. '/nvim-sync.json'
+  vim.fn.writefile({ json }, out)
+end
+-- 自動化: .py 保存後に「そのセル＋下」を実行
+vim.api.nvim_create_autocmd('BufWritePost', {
+  pattern = '*.py',
+  callback = function()
+    write_sync_json 'runBelow'
+  end,
+})
+-- 手動トリガ（必要に応じて）
+vim.api.nvim_create_user_command('JupyRunAll', function()
+  write_sync_json 'runAll'
+end, {})
+vim.api.nvim_create_user_command('JupyRunBelow', function()
+  write_sync_json 'runBelow'
+end, {})
+vim.keymap.set('n', '<leader>ra', function()
+  write_sync_json 'runAll'
+end, { desc = 'Jupyter Run All via VSCode' })
+vim.keymap.set('n', '<leader>rb', function()
+  write_sync_json 'runBelow'
+end, { desc = 'Jupyter Run Below via VSCode' })
