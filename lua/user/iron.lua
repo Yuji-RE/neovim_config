@@ -68,7 +68,7 @@ iron.setup {
     send_code_block_and_move = '<space>sn',
     mark_motion = '<space>mc',
     mark_visual = '<space>mc',
-    remove_mark = '<space>md',
+    remove_mark = '<space>rm',
     cr = '<space>s<cr>',
     interrupt = '<space>s<space>',
     exit = '<space>sq',
