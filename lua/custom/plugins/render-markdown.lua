@@ -26,8 +26,6 @@ return {
 
     dash = { width = 7, icon = '-' },
 
-    quote = { icon = '▯' },
-
     bullet = { icons = '-' },
 
     code = {

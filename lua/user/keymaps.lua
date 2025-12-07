@@ -57,60 +57,73 @@ map('n', '<leader>q', ':q<CR>') -- 閉じる
 -- Jupytext 用ショートカット
 -- ==============================================================================
 
--- ▼ 下にコードセル (# %%) を作る（インデント無視でトップレベルに追加）
+-- ▼ 下にコードセル (# %%) を作る
+--  # %%
+--  |      ← カーソル
+--  <空白>
 map('n', '<leader>cd', function()
   local row = vim.api.nvim_win_get_cursor(0)[1] -- 1-based
 
-  -- 現在行の「下」に挿入（0-based なので start=row）
   vim.api.nvim_buf_set_lines(0, row, row, false, {
     '# %%',
-    '',
+    '', -- カーソルが来る行
+    '', -- セルの下の空白行
   })
 
-  -- 挿入した空行にカーソルを移動して挿入モード
+  -- 追加後:
+  -- row+1: "# %%"
+  -- row+2: ""   ← ここにカーソル
+  -- row+3: ""   (空白)
   vim.api.nvim_win_set_cursor(0, { row + 2, 0 })
   vim.cmd 'startinsert'
 end, {
-  desc = 'Insert Jupytext code cell (below, no indent)',
+  desc = 'Insert Jupytext code cell (below, spaced)',
 })
 
 -- ▼ 上にコードセル (# %%) を作る（インデント無視でトップレベルに追加）
 map('n', '<leader>cu', function()
   local row = vim.api.nvim_win_get_cursor(0)[1]
 
-  -- 現在行の「上」に挿入（start=row-1）
   vim.api.nvim_buf_set_lines(0, row - 1, row - 1, false, {
     '# %%',
     '',
+    '',
   })
 
-  -- 挿入した空行にカーソルを移動して挿入モード
+  -- ★ここを row → row + 1 に変更
   vim.api.nvim_win_set_cursor(0, { row + 1, 0 })
   vim.cmd 'startinsert'
 end, {
-  desc = 'Insert Jupytext code cell (above, no indent)',
+  desc = 'Insert Jupytext code cell (above, spaced)',
 })
 
 -- ▼ 下にマークダウンセルを作る
---   # %% [markdown]
---   """
---   |  ← ここにカーソル
---   """
+--  # %% [markdown]
+--  """
+--  |      ← カーソル
+--  <空白>
+--  """
 map('n', '<leader>mdd', function()
   local row = vim.api.nvim_win_get_cursor(0)[1]
 
   vim.api.nvim_buf_set_lines(0, row, row, false, {
     '# %% [markdown]',
     '"""',
-    '',
+    '', -- カーソルが来る行
+    '', -- カーソルの下の空白行
     '"""',
   })
 
-  -- 空行は row+3 行目になる
+  -- 追加後:
+  -- row+1: "# %% [markdown]"
+  -- row+2: '"""'
+  -- row+3: ""   ← ここにカーソル
+  -- row+4: ""   (空白)
+  -- row+5: '"""'
   vim.api.nvim_win_set_cursor(0, { row + 3, 0 })
   vim.cmd 'startinsert'
 end, {
-  desc = 'Insert Jupytext markdown cell (below, no indent)',
+  desc = 'Insert Jupytext markdown cell (below, spaced)',
 })
 
 -- ▼ 上にマークダウンセルを作る
@@ -121,12 +134,13 @@ map('n', '<leader>mdu', function()
     '# %% [markdown]',
     '"""',
     '',
+    '',
     '"""',
   })
 
-  -- 空行は row+2 行目になる
+  -- ★ここを row + 1 → row + 2 に変更
   vim.api.nvim_win_set_cursor(0, { row + 2, 0 })
   vim.cmd 'startinsert'
 end, {
-  desc = 'Insert Jupytext markdown cell (above, no indent)',
+  desc = 'Insert Jupytext markdown cell (above, spaced)',
 })

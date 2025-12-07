@@ -193,13 +193,14 @@ return {
 
       -- 下の情報バーを最下層に配置し画面を最大化
       vim.opt.laststatus = 3
-      vim.opt.cmdheight = 0
+      vim.opt.cmdheight = 1
       -- borderを設定
       vim.opt.winborder = 'rounded'
       -- 2. あなたの定義したカラーパレット
       local p = {
         accent1 = '#d97171', -- Keyword
-        accent2 = '#913327', -- Function
+        -- accent2 = '#913327', -- Function
+        accent2 = '#b57e2f',
         type_fg = '#9c5a86', -- Type
         var_fg = '#f5d7c9', -- Variable
         dimbg = '#a32502', -- Background accent
@@ -247,7 +248,20 @@ return {
       set_hl('@variable.builtin', { fg = '#cced26', italic = true })
       set_hl('@punctuation.delimiter', { fg = p.bracket })
       set_hl('Comment', { fg = p.comment, italic = true })
-      set_hl('MatchParen', { fg = '#07fa50', bg = 'NONE', bold = true })
+
+      -- 対応括弧のハイライト（背景色で強調する）
+      set_hl('MatchParen', {
+        fg = 'NONE', -- 文字色はベースに任せる
+        bg = '#4f1e1e', -- 好きな色に（例として暗めの青緑）
+        bold = true,
+        nocombine = true, -- 他のハイライトと合成しない
+      })
+
+      -- vim-matchup が使う現在位置側のグループも同じ見た目に
+      set_hl('MatchParenCur', { link = 'MatchParen' })
+
+      -- set_hl('MatchParen', { fg = '#07fa50', bg = 'NONE', bold = true, nocombine = true })
+      -- set_hl('MatchParenCur', { link = 'MatchParen' })
 
       set_hl('String', { fg = p.string, italic = true })
       set_hl('Constant', { fg = p.accent1 })
@@ -259,6 +273,7 @@ return {
       -- bg='NONE'にすると線が消えてしまうため、先ほど定義した極薄の色を使います
       --set_hl('CursorLine', { bg = p.cursor_bg })
       --set_hl('CursorColumn', { bg = p.cursor_bg })
+
       -- 行番号（カーソルがある行）を目立たせる場合
       set_hl('CursorLineNr', { fg = p.accent1, bold = true, bg = 'NONE' })
 
@@ -463,7 +478,7 @@ return {
       set_hl('MiniStatuslineModeReplace', { fg = '#121212', bg = '#913327', bold = true })
 
       -- Commandモード (:)
-      set_hl('MiniStatuslineModeCommand', { fg = '#22254f', bg = '#e07253', bold = true })
+      set_hl('MiniStatuslineModeCommand', { fg = '#ededed', bg = '#592944' })
 
       -- その他の情報部分 (ファイル名やGit情報など)
       set_hl('MiniStatuslineDevinfo', { fg = '#9dadc4', bg = '#352d3b' }) -- `Git master Diff - LSP`のところ
@@ -475,7 +490,7 @@ return {
       -- =========================================
       -- プラグインを使わず "-- INSERT --" と文字が出るだけの箇所の設定
       set_hl('ModeMsg', { fg = '#d97171', bold = true })
-      set_hl('MsgArea', { fg = '#c1f719', bg = '#e07253', bold = true }) -- コマンドラインエリア
+      set_hl('MsgArea', { fg = '#ff7aa4', bold = true }) -- コマンドラインエリア
       -- (おまけ) ブール値 ( true, false )
       --    数字と同じ色にするか、キーワード色にするかお好みで
       set_hl('Boolean', { fg = '#a4a642' })
@@ -596,20 +611,36 @@ return {
       set_hl('WhichKeySeparator', { fg = p.comment, bg = 'NONE' })
       set_hl('WhichKeyValue', { fg = p.var_fg, bg = 'NONE' })
 
+      -- =========================
+      -- 検索ハイライト
+      -- =========================
+      set_hl('Search', {
+        fg = '#ededed', -- 背景とコントラスト取れる濃いめの色
+        bg = '#222d38', -- ヒット部分の背景（明るい黄色っぽい）
+      })
+
+      set_hl('IncSearch', {
+        fg = '#ededed',
+        bg = '#222d38', -- 入力中の検索ワード用に少しオレンジ寄り
+      })
+
+      -- Neovim 0.8+ なら、現在のマッチだけ別色にできる
+      pcall(set_hl, 'CurSearch', {
+        fg = '#000000',
+        bg = '#7eaced', -- 今いるマッチだけ派手な黄緑とかにしてもいい
+      })
+
       ----------------------------------------------------------------------
       -- render-markdown.nvim 用ハイライト
       -- （デフォルト設定の「RenderMarkdownH1〜」などを上書きするイメージ）
       ----------------------------------------------------------------------
-
-      -- 見出し (君がすでに Treesitter 側で使ってる色に揃えてある)
-
       -- コードブロック / インラインコード
       set_hl('RenderMarkdownCode', { fg = '#7a2828', bg = 'NONE' })
       set_hl('RenderMarkdownCodeBorder', { bg = 'NONE' })
       set_hl('RenderMarkdownCodeInline', { fg = '#7a2828', bg = 'NONE' })
 
       -- 引用
-      set_hl('RenderMarkdownQuote1', { fg = '#5fafff', bg = 'NONE' })
+      set_hl('RenderMarkdownQuote1', { fg = '#86a284', bg = 'NONE' })
       -- 必要に応じて 2〜6 まで増やせる
       -- set_hl('RenderMarkdownQuote2', { fg = '#...' })
 
@@ -701,6 +732,20 @@ return {
       set_hl('@markup.heading.4.markdown', { fg = '#456ba1', bg = 'NONE' })
       set_hl('@markup.heading.5.markdown', { fg = '#559e8b', bg = 'NONE' })
       --set_hl('@markup.strong.markdown', { fg = '#c9c23a', bold = true })
+
+      -- markdown の引用テキストの色を上書き
+      set_hl('@markup.quote.markdown', {
+        fg = '#414f4b', -- 好きなテキスト色に
+        bg = 'NONE',
+        italic = true, -- 斜体にしたければ
+      })
+
+      -- ついでに汎用 @markup.quote も押さえておくと他の filetype にも効く
+      set_hl('@markup.quote', {
+        fg = '#878194',
+        bg = 'NONE',
+        italic = true,
+      })
     end,
   },
 }
