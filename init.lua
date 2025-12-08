@@ -1214,14 +1214,44 @@ map('n', '<leader>jm', 'o# %% [markdown]<CR>"""<CR><CR><CR>"""<Up><Up>', {
   desc = 'Insert Jupytext markdown cell',
 })
 
----- .pyファイルを保存した後に、自動でjupytext --syncを実行する
--- vim.api.nvim_create_autocmd('BufWritePost', { pattern = '*.py', command = 'silent !jupytext --sync %' })
--------------------------------------------------------------------------------------------------------------
-
----nvim-jupy-bridge の自作拡張機能設定 -------------------------------
 ----------------------------------------------------------------------
--------------------------------------------
------ Git ルート（なければ CWD）
+-- nvim-jupy-bridge 用 Neovim 側設定
+--  - .py 保存時に jupytext --sync の実行時間を計測
+--  - 少し遅らせて nvim-sync.json を書き出し
+--  - VS Code 側に jupy_ms / defer_ms を渡す
+----------------------------------------------------------------------
+
+-- ============================================
+-- 1. jupytext --sync の所要時間を計測する
+-- ============================================
+
+-- 直近の jupytext --sync の実行時間(ms)を保持するグローバル変数
+_G.nvimjupy_last_jupy_ms = 0
+
+-- .py ファイル保存後に jupytext --sync を同期実行して計測
+vim.api.nvim_create_autocmd('BufWritePost', {
+  pattern = '*.py',
+  callback = function()
+    local bufpath = vim.fn.expand '%:p'
+    local t0 = vim.loop.hrtime() -- ns 単位
+    -- 以前の `silent !jupytext --sync %` 相当（同期実行）
+    vim.fn.system { 'jupytext', '--sync', bufpath }
+    local t1 = vim.loop.hrtime()
+    _G.nvimjupy_last_jupy_ms = math.floor((t1 - t0) / 1e6) -- ns → ms
+    -- ★ jupytext による変更を Neovim 側にも反映させる
+    --    外部変更をチェックして、変わっていれば自動で再読込
+    vim.cmd 'checktime'
+  end,
+})
+
+-- ============================================
+-- 2. nvim-jupy-bridge 用 JSON を書き出す設定
+-- ============================================
+
+-- Neovim 側で JSON を書き出すまでにかける遅延(ms)
+local NVIMJUPY_DEFER_MS = 100
+
+-- Git ルート（なければ CWD）
 local function project_root()
   local git = vim.fn.systemlist 'git rev-parse --show-toplevel'
   if vim.v.shell_error == 0 and git[1] and git[1] ~= '' then
@@ -1229,6 +1259,7 @@ local function project_root()
   end
   return vim.loop.cwd()
 end
+
 -- VS Code 拡張が監視する JSON を出力
 local function write_sync_json(action)
   local root = project_root()
@@ -1236,35 +1267,53 @@ local function write_sync_json(action)
   if vim.fn.isdirectory(vscode_dir) == 0 then
     vim.fn.mkdir(vscode_dir, 'p')
   end
+
   local pyfile = vim.fn.expand '%:p'
   local line = vim.fn.line '.'
+
   local payload = {
     file = pyfile,
     line = line,
-    action = action or 'runBelow',
-    -- 'runAll' も可
+    action = action or 'runBelow', -- 'runAll' も可
+
+    -- 直前の jupytext --sync の実行時間(ms)
+    jupy_ms = _G.nvimjupy_last_jupy_ms or 0,
+
+    -- Neovim 側で JSON 書き出しまでにかけている defer 時間(ms)
+    defer_ms = NVIMJUPY_DEFER_MS,
   }
+
   local json = vim.fn.json_encode(payload)
   local out = vscode_dir .. '/nvim-sync.json'
   vim.fn.writefile({ json }, out)
 end
--- 自動化: .py 保存後に「そのセル＋下」を実行
+
+-- .py 保存後に、少し遅らせて JSON を書き出す（VS Code 側トリガ）
 vim.api.nvim_create_autocmd('BufWritePost', {
   pattern = '*.py',
   callback = function()
-    write_sync_json 'runBelow'
+    vim.defer_fn(function()
+      write_sync_json 'runBelow'
+    end, NVIMJUPY_DEFER_MS)
   end,
 })
--- 手動トリガ（必要に応じて）
+
+-- ============================================
+-- 3. 手動トリガ（必要に応じて）
+-- ============================================
+
 vim.api.nvim_create_user_command('JupyRunAll', function()
   write_sync_json 'runAll'
 end, {})
+
 vim.api.nvim_create_user_command('JupyRunBelow', function()
   write_sync_json 'runBelow'
 end, {})
+
 vim.keymap.set('n', '<leader>ra', function()
   write_sync_json 'runAll'
 end, { desc = 'Jupyter Run All via VSCode' })
+
 vim.keymap.set('n', '<leader>rb', function()
   write_sync_json 'runBelow'
 end, { desc = 'Jupyter Run Below via VSCode' })
