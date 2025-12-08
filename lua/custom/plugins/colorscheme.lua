@@ -199,8 +199,8 @@ return {
       -- 2. あなたの定義したカラーパレット
       local p = {
         accent1 = '#d97171', -- Keyword
-        -- accent2 = '#913327', -- Function
-        accent2 = '#b57e2f',
+        accent2 = '#913327', -- Function
+        -- accent2 = '#b57e2f',
         type_fg = '#9c5a86', -- Type
         var_fg = '#f5d7c9', -- Variable
         dimbg = '#a32502', -- Background accent
@@ -276,7 +276,8 @@ return {
 
       -- 行番号（カーソルがある行）を目立たせる場合
       set_hl('CursorLineNr', { fg = p.accent1, bold = true, bg = 'NONE' })
-
+      -- set_hl('LineNr', { fg = '#555555', bg = 'NONE' })
+      set_hl('CopilotSuggestion', { fg = '#242a33', bg = 'NONE', italic = true })
       -- =========================================
       -- エラー・警告・診断メッセージの色設定
       -- =========================================
@@ -353,7 +354,7 @@ return {
       local transparent_groups = {
         'Folded',
         -- 'NonText',
-        --'LineNr',
+        'LineNr',
         'SignColumn',
         'StatusLine',
         'StatusLineNC',
@@ -635,9 +636,9 @@ return {
       -- （デフォルト設定の「RenderMarkdownH1〜」などを上書きするイメージ）
       ----------------------------------------------------------------------
       -- コードブロック / インラインコード
-      set_hl('RenderMarkdownCode', { fg = '#7a2828', bg = 'NONE' })
+      set_hl('RenderMarkdownCode', { fg = '#75511d', bg = 'NONE' })
       set_hl('RenderMarkdownCodeBorder', { bg = 'NONE' })
-      set_hl('RenderMarkdownCodeInline', { fg = '#7a2828', bg = 'NONE' })
+      set_hl('RenderMarkdownCodeInline', { fg = '#75511d', bg = 'NONE' })
 
       -- 引用
       set_hl('RenderMarkdownQuote1', { fg = '#86a284', bg = 'NONE' })

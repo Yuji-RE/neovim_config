@@ -199,7 +199,7 @@ local function select_or_new_notes_vsplit()
   end
 
   vim.ui.select(items, {
-    prompt = 'どのノートを開く？',
+    prompt = 'Which note？',
     format_item = function(item)
       return item.label
     end,
@@ -223,14 +223,13 @@ end
 -- =========================
 -- キーマップ
 -- =========================
-vim.keymap.set('n', '<leader>nv', open_notes_vsplit,  { desc = 'Open notes (vsplit, default)' })
-vim.keymap.set('n', '<leader>nV', select_or_new_notes_vsplit, { desc = 'Select or new notes (vsplit)' })
-vim.keymap.set('n', '<leader>nh', open_notes_hsplit,  { desc = 'Open notes (hsplit)' })
-vim.keymap.set('n', '<leader>nf', open_notes_float,   { desc = 'Open notes (float, default)' })
+vim.keymap.set('n', '<leader>nv', open_notes_vsplit, { desc = 'Open notes (vsplit, default)' })
+vim.keymap.set('n', '<leader>NV', select_or_new_notes_vsplit, { desc = 'Select or new notes (vsplit)' })
+vim.keymap.set('n', '<leader>nh', open_notes_hsplit, { desc = 'Open notes (hsplit)' })
+vim.keymap.set('n', '<leader>nf', open_notes_float, { desc = 'Open notes (float, default)' })
 
 -- 新規ノートを即作る（float）
 vim.keymap.set('n', '<leader>nn', open_new_notes_float, { desc = 'Open NEW notes (float)' })
-
 
 --
 -- local function get_notes_path()

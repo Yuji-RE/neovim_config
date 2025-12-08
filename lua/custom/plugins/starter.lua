@@ -149,9 +149,9 @@ _____.___.                 _____                      ___  _______   ___________
     }
 
     -- ちょっと雰囲気出す色
-    vim.api.nvim_set_hl(0, 'MiniStarterHeader', { fg = '#bab8b5' })
-    vim.api.nvim_set_hl(0, 'MiniStarterFooter', { fg = '#d2ccde', italic = true })
-    vim.api.nvim_set_hl(0, 'MiniStarterSection', { fg = '#e6b18e', italic = true })
-    vim.api.nvim_set_hl(0, 'MiniStarterItem', { fg = '#d2ccde' })
+    -- vim.api.nvim_set_hl(0, 'MiniStarterHeader', { fg = '#bab8b5' })
+    -- vim.api.nvim_set_hl(0, 'MiniStarterFooter', { fg = '#d2ccde', italic = true })
+    -- vim.api.nvim_set_hl(0, 'MiniStarterSection', { fg = '#e6b18e', italic = true })
+    -- vim.api.nvim_set_hl(0, 'MiniStarterItem', { fg = '#d2ccde' })
   end,
 }
