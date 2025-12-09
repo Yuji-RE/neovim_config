@@ -4,7 +4,7 @@ require('toggleterm').setup {
   float_opts = {
     border = 'curved',
   },
-  -- ここでキーマッピングも設定してしまうのが美しい
+  -- キーマッピング
   open_mapping = [[<c-t>]],
   -- ターミナルモードから抜けるのを簡単にする
   on_open = function(term)

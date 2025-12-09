@@ -37,15 +37,6 @@ map('n', '<leader>q', ':q<CR>') -- 閉じる
 -- プラグイン関連のキーマップ
 -- ==============================================================================
 
--- Telescope (もし使っているなら)
--- map('n', '<leader>ff', function() require('telescope.builtin').find_files() end)
--- map('n', '<leader>fg', function() require('telescope.builtin').live_grep() end)
-
--- Toggleterm (今回のプラグイン)
--- ❗注意: Toggletermはsetup内でキーマップを設定したので、ここでは不要。
--- もしsetupで設定しなかった場合は、ここで設定できる。
--- map('n', '<C-t>', ':ToggleTerm<CR>')
-
 -- ==============================================================================
 -- ここに、モード(n, i, v)ごとに設定を追加していく
 -- 'n': ノーマルモード
@@ -57,7 +48,7 @@ map('n', '<leader>q', ':q<CR>') -- 閉じる
 -- Jupytext 用ショートカット
 -- ==============================================================================
 
--- ▼ 下にコードセル (# %%) を作る
+--  下にコードセル (# %%) を作る
 --  # %%
 --  |      ← カーソル
 --  <空白>
@@ -80,7 +71,7 @@ end, {
   desc = 'Insert Jupytext code cell (below, spaced)',
 })
 
--- ▼ 上にコードセル (# %%) を作る（インデント無視でトップレベルに追加）
+--  上にコードセル (# %%) を作る（インデント無視でトップレベルに追加）
 map('n', '<leader>cu', function()
   local row = vim.api.nvim_win_get_cursor(0)[1]
 
@@ -90,14 +81,13 @@ map('n', '<leader>cu', function()
     '',
   })
 
-  -- ★ここを row → row + 1 に変更
   vim.api.nvim_win_set_cursor(0, { row + 1, 0 })
   vim.cmd 'startinsert'
 end, {
   desc = 'Insert Jupytext code cell (above, spaced)',
 })
 
--- ▼ 下にマークダウンセルを作る
+--  下にマークダウンセルを作る
 --  # %% [markdown]
 --  """
 --  |      ← カーソル
@@ -114,19 +104,13 @@ map('n', '<leader>mdd', function()
     '"""',
   })
 
-  -- 追加後:
-  -- row+1: "# %% [markdown]"
-  -- row+2: '"""'
-  -- row+3: ""   ← ここにカーソル
-  -- row+4: ""   (空白)
-  -- row+5: '"""'
   vim.api.nvim_win_set_cursor(0, { row + 3, 0 })
   vim.cmd 'startinsert'
 end, {
   desc = 'Insert Jupytext markdown cell (below, spaced)',
 })
 
--- ▼ 上にマークダウンセルを作る
+--  上にマークダウンセルを作る
 map('n', '<leader>mdu', function()
   local row = vim.api.nvim_win_get_cursor(0)[1]
 
@@ -138,7 +122,6 @@ map('n', '<leader>mdu', function()
     '"""',
   })
 
-  -- ★ここを row + 1 → row + 2 に変更
   vim.api.nvim_win_set_cursor(0, { row + 2, 0 })
   vim.cmd 'startinsert'
 end, {
