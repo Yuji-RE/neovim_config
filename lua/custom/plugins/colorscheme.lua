@@ -650,7 +650,7 @@ return {
       set_hl('RenderMarkdownTableRow', { fg = p.fg, bg = 'NONE' })
 
       -- チェックボックス
-      set_hl('RenderMarkdownUnchecked', { fg = '#7d997e', bg = 'NONE' })
+      set_hl('RenderMarkdownUnchecked', { fg = '#633723', bg = 'NONE' })
       set_hl('RenderMarkdownChecked', { fg = '#74fa05', bg = 'NONE' })
 
       set_hl('RenderMarkdownDash', { fg = '#f23f3f', bg = 'NONE' })

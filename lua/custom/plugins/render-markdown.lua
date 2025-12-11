@@ -31,12 +31,16 @@ return {
     bullet = { icons = '-' },
 
     code = {
+      enabled = false,
+      -- ここでコードブロックのスタイルを指定
+      style = 'language',
       width = 'block',
       border = 'thin',
       sign = true,
+      -- highlight = '',
     },
 
     --ファイルタイプごとの設定（念のため）
-    file_types = { 'markdown', 'python' },
+    file_types = { 'markdown' },
   },
 }
