@@ -17,6 +17,9 @@ return {
             dismiss = '<C-]>',
           },
         },
+        filetypes = {
+          markdown = true,
+        },
         panel = {
           enabled = false, -- とりあえずパネルUIはオフでもOK
         },

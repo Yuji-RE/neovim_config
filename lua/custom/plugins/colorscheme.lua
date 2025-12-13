@@ -218,7 +218,8 @@ return {
         -- お好みで調整してください: '#1a1a1a'(より暗く) ～ '#2d2222'(もう少し赤く)
         -- cursor_bg = '#b53721',
       }
-      vim.api.nvim_set_hl(0, '@jupytest', { fg = '#ff0000', bold = true })
+      -- vim.api.nvim_set_hl(0, '@jupytest', { fg = '#ff0000', bold = true })
+
       -- 3. ハイライトグループの適用関数
       local function set_hl(group, opts)
         vim.api.nvim_set_hl(0, group, opts)
@@ -270,7 +271,6 @@ return {
       -- set_hl('Operator', { fg = '#79d4c4' })
 
       -- ★追加: カーソルラインとカーソルカラムの色設定
-      -- bg='NONE'にすると線が消えてしまうため、先ほど定義した極薄の色を使います
       --set_hl('CursorLine', { bg = p.cursor_bg })
       --set_hl('CursorColumn', { bg = p.cursor_bg })
 
@@ -278,6 +278,22 @@ return {
       set_hl('CursorLineNr', { fg = p.accent1, bold = true, bg = 'NONE' })
       -- set_hl('LineNr', { fg = '#555555', bg = 'NONE' })
       set_hl('CopilotSuggestion', { fg = '#242a33', bg = 'NONE', italic = true })
+
+      -- =========================================
+
+      -- 例: Git Diffの差分のハイライト調整
+      set_hl('DiffAdd', { bg = '#0a1226' })
+      set_hl('DiffChange', { bg = '#0a0a0a' })
+      set_hl('DiffDelete', { bg = '#290a0a' })
+      set_hl('DiffText', { bg = '#331936' })
+
+      -- git signs
+      set_hl('GitSignsAdd', { fg = '#3599fc', bg = 'NONE' })
+      set_hl('GitSignsChange', { fg = '#b7ff52', bg = 'NONE' })
+      set_hl('GitSignsDelete', { fg = '#fc3c35', bg = 'NONE' })
+      -- =========================================
+      set_hl('folded', { fg = '#fafafa', bg = 'NONE' })
+
       -- =========================================
       -- エラー・警告・診断メッセージの色設定
       -- =========================================
@@ -550,9 +566,9 @@ return {
       -- =========================================
 
       -- bg='NONE' で背景を透明化し、sp(下線色)とunderlineで強調
-      set_hl('LspReferenceText', { bg = '#212119', sp = '#a8fc62' })
-      set_hl('LspReferenceRead', { bg = '#212619', sp = '#a8fc62' })
-      set_hl('LspReferenceWrite', { bg = '#212619', sp = '#a8fc62' })
+      set_hl('LspReferenceText', { bg = '#694567', sp = '#a8fc62' })
+      set_hl('LspReferenceRead', { bg = '#694567', sp = '#a8fc62' })
+      set_hl('LspReferenceWrite', { bg = '#694567', sp = '#a8fc62' })
 
       ----------------------------------------------------------------------
       -- Telescope ハイライト
